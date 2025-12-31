@@ -25,20 +25,21 @@ class PredictPipeline:
         except Exception as e:
             raise customexception(e, sys)
 
+
 class CustomData:
     def __init__(self,
                  property_type: str,
                  room_type: str,
                  amenities: int,
                  accommodates: int,
-                 bathrooms: int,
+                 bathrooms: float,
                  bed_type: str,
                  cancellation_policy: str,
-                 cleaning_fee: float,
+                 cleaning_fee: str,
                  city: str,
                  host_has_profile_pic: str,
                  host_identity_verified: str,
-                 host_response_rate: str,
+                 host_response_rate: int,
                  instant_bookable: str,
                  latitude: float,
                  longitude: float,
@@ -69,29 +70,77 @@ class CustomData:
 
     def get_data_as_dataframe(self):
         try:
+            # Map form values to expected data format
+            cleaning_fee_map = {'1': 'True', '0': 'False', 'True': 'True', 'False': 'False'}
+            host_pic_map = {'1': 't', '0': 'f', 't': 't', 'f': 'f'}
+            host_verified_map = {'1': 't', '0': 'f', 't': 't', 'f': 'f'}
+            instant_book_map = {'1': 't', '0': 'f', 't': 't', 'f': 'f'}
+            
+            # Map city names to match training data
+            city_map = {
+                'Boston': 'Boston',
+                'Chicago': 'Chicago',
+                'Washington, D.C.': 'DC',
+                'DC': 'DC',
+                'Los Angeles': 'LA',
+                'LA': 'LA',
+                'New York': 'NYC',
+                'NYC': 'NYC',
+                'San Francisco': 'SF',
+                'SF': 'SF'
+            }
+            
+            # Map room types to match training data
+            room_type_map = {
+                'Shared Room': 'Shared room',
+                'Private Room': 'Private room',
+                'Entire Home/Apt': 'Entire home/apt',
+                'Shared room': 'Shared room',
+                'Private room': 'Private room',
+                'Entire home/apt': 'Entire home/apt'
+            }
+            
+            # Map cancellation policy to match training data
+            cancellation_map = {
+                'Flexible': 'flexible',
+                'Moderate': 'moderate',
+                'Strict': 'strict',
+                'Super strict': 'super_strict_30',
+                'Advanced Super Strict': 'super_strict_60',
+                'flexible': 'flexible',
+                'moderate': 'moderate',
+                'strict': 'strict',
+                'super_strict_30': 'super_strict_30',
+                'super_strict_60': 'super_strict_60'
+            }
+            
+            # Column order must match the order used during training
+            # Numerical: amenities, accommodates, bathrooms, latitude, longitude, host_response_rate, number_of_reviews, review_scores_rating, bedrooms, beds
+            # Categorical: property_type, room_type, bed_type, cancellation_policy, cleaning_fee, city, host_has_profile_pic, host_identity_verified, instant_bookable
+            
             custom_data_input_dict = {
-                'property_type': [self.property_type],
-                'room_type': [self.room_type],
                 'amenities': [self.amenities],
                 'accommodates': [self.accommodates],
                 'bathrooms': [self.bathrooms],
-                'bed_type': [self.bed_type],
-                'cancellation_policy': [self.cancellation_policy],
-                'cleaning_fee': [self.cleaning_fee],
-                'city': [self.city],
-                'host_has_profile_pic': [self.host_has_profile_pic],
-                'host_identity_verified': [self.host_identity_verified],
-                'host_response_rate': [self.host_response_rate],
-                'instant_bookable': [self.instant_bookable],
                 'latitude': [self.latitude],
                 'longitude': [self.longitude],
+                'host_response_rate': [self.host_response_rate],
                 'number_of_reviews': [self.number_of_reviews],
                 'review_scores_rating': [self.review_scores_rating],
                 'bedrooms': [self.bedrooms],
-                'beds': [self.beds]
+                'beds': [self.beds],
+                'property_type': [self.property_type],
+                'room_type': [room_type_map.get(self.room_type, self.room_type)],
+                'bed_type': [self.bed_type],
+                'cancellation_policy': [cancellation_map.get(self.cancellation_policy, self.cancellation_policy)],
+                'cleaning_fee': [cleaning_fee_map.get(str(self.cleaning_fee), 'True')],
+                'city': [city_map.get(self.city, self.city)],
+                'host_has_profile_pic': [host_pic_map.get(str(self.host_has_profile_pic), 't')],
+                'host_identity_verified': [host_verified_map.get(str(self.host_identity_verified), 't')],
+                'instant_bookable': [instant_book_map.get(str(self.instant_bookable), 'f')]
             }
+            
             df = pd.DataFrame(custom_data_input_dict)
-            df = np.reshape(df, (19,))
             logging.info('Dataframe Gathered')
             return df
         except Exception as e:
