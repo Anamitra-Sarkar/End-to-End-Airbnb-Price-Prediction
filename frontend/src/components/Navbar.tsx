@@ -122,8 +122,6 @@ export function Navbar({ activeTab, onTabChange }: { activeTab?: string, onTabCh
                             {isProfileOpen && (
                                 <div className="absolute right-0 mt-2 w-56 bg-white dark:bg-slate-800 rounded-2xl shadow-lg border border-gray-100 dark:border-slate-700 py-2 z-50">
                                     <div className="px-4 py-3 border-b border-gray-100 dark:border-slate-700">
-                                        <p className="text-sm font-bold text-gray-900 dark:text-white">Guest User</p>
-                                        <p className="text-xs text-gray-500 dark:text-gray-400">guest@example.com</p>
                                     </div>
                                     {PROFILE_MENU.map((item, i) => (
                                         <button
