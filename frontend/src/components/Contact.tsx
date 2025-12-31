@@ -6,8 +6,8 @@ const CONTACT_INFO = [
     {
         icon: Mail,
         label: "Email",
-        value: "support@proviewcadence.com",
-        href: "mailto:support@proviewcadence.com"
+        value: "support@email.com",
+        href: "mailto:support@email.com"
     },
     {
         icon: Phone,
