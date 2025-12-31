@@ -4,7 +4,9 @@ import { Navbar } from "@/components/Navbar";
 import { SearchForm } from "@/components/SearchForm";
 import { DreamStream } from "@/components/DreamStream";
 import { PredictionReveal } from "@/components/PredictionReveal";
-import { Experiences } from "@/components/Experiences";
+import { Feedback } from "@/components/Feedback";
+import { About } from "@/components/About";
+import { Contact } from "@/components/Contact";
 import { MagicCursor } from "@/components/ui/MagicCursor";
 import { AuroraBackground } from "@/components/ui/AuroraBackground";
 import { FallingHouseIntro } from "@/components/ui/FallingHouseIntro";
@@ -69,13 +71,33 @@ export default function Home() {
         </>
       )}
 
-      {activeTab === "Experiences" && (
+      {activeTab === "Feedback" && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
         >
           <div className="h-32" /> {/* Spacer for fixed navbar */}
-          <Experiences />
+          <Feedback />
+        </motion.div>
+      )}
+
+      {activeTab === "About" && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <div className="h-32" /> {/* Spacer for fixed navbar */}
+          <About />
+        </motion.div>
+      )}
+
+      {activeTab === "Contact" && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
+          <div className="h-32" /> {/* Spacer for fixed navbar */}
+          <Contact />
         </motion.div>
       )}
 
