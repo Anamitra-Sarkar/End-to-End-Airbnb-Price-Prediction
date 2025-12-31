@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="static/style.css">
+    <title>Airbnb Price Prediction</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body>
+    <h1>Airbnb Price Prediction</h1>
+    <form id="prediction-form">
+        <div class="form-group">
+            <label for="property_type">Property Type:</label>
+            <select name="property_type" id="property_type">
+                <option value="Apartment">Apartment</option>
+                <option value="Bed & Breakfast">Bed & Breakfast</option>
+                <option value="Boat">Boat</option>
+                <option value="Boutique hotel">Boutique hotel</option>
+                <option value="Bungalow">Bungalow</option>
+                <option value="Cabin">Cabin</option>
+                <option value="Camper/RV">Camper/RV</option>
+                <option value="Castle">Castle</option>
+                <option value="Condominium">Condominium</option>
+                <option value="Dorm">Dorm</option>
+                <option value="Guest suite">Guest suite</option>
+                <option value="Guesthouse">Guesthouse</option>
+                <option value="Hostel">Hostel</option>
+                <option value="House">House</option>
+                <option value="Houseboat">Houseboat</option>
+                <option value="Loft">Loft</option>
+                <option value="Other">Other</option>
+                <option value="Serviced apartment">Serviced apartment</option>
+                <option value="Timeshare">Timeshare</option>
+                <option value="Townhouse">Townhouse</option>
+                <option value="Treehouse">Treehouse</option>
+                <option value="Villa">Villa</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="room_type">Room Type:</label>
+            <select name="room_type" id="room_type">
+                <option value="Entire home/apt">Entire home/apt</option>
+                <option value="Private room">Private room</option>
+                <option value="Shared room">Shared room</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="amenities">Amenities (count):</label>
+            <input type="number" name="amenities" id="amenities" value="10" min="0" max="100">
+        </div>
+
+        <div class="form-group">
+            <label for="accommodates">Accommodates:</label>
+            <input type="number" name="accommodates" id="accommodates" value="2" min="1" max="20">
+        </div>
+
+        <div class="form-group">
+            <label for="bathrooms">Bathrooms:</label>
+            <input type="number" name="bathrooms" id="bathrooms" value="1" min="0" max="10" step="0.5">
+        </div>
+
+        <div class="form-group">
+            <label for="bed_type">Bed Type:</label>
+            <select name="bed_type" id="bed_type">
+                <option value="Real Bed">Real Bed</option>
+                <option value="Futon">Futon</option>
+                <option value="Pull-out Sofa">Pull-out Sofa</option>
+                <option value="Airbed">Airbed</option>
+                <option value="Couch">Couch</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="cancellation_policy">Cancellation Policy:</label>
+            <select name="cancellation_policy" id="cancellation_policy">
+                <option value="flexible">Flexible</option>
+                <option value="moderate">Moderate</option>
+                <option value="strict">Strict</option>
+                <option value="super_strict_30">Super Strict 30</option>
+                <option value="super_strict_60">Super Strict 60</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="cleaning_fee">Cleaning Fee:</label>
+            <select name="cleaning_fee" id="cleaning_fee">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="city">City:</label>
+            <select name="city" id="city">
+                <option value="NYC">New York City</option>
+                <option value="LA">Los Angeles</option>
+                <option value="SF">San Francisco</option>
+                <option value="DC">Washington DC</option>
+                <option value="Boston">Boston</option>
+                <option value="Chicago">Chicago</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="host_has_profile_pic">Host has Profile Pic:</label>
+            <select name="host_has_profile_pic" id="host_has_profile_pic">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="host_identity_verified">Host Identity Verified:</label>
+            <select name="host_identity_verified" id="host_identity_verified">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="host_response_rate">Host Response Rate (%):</label>
+            <input type="number" name="host_response_rate" id="host_response_rate" value="100" min="0" max="100">
+        </div>
+
+        <div class="form-group">
+            <label for="instant_bookable">Instant Bookable:</label>
+            <select name="instant_bookable" id="instant_bookable">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="latitude">Latitude:</label>
+            <input type="number" name="latitude" id="latitude" value="40.7128" step="0.0001">
+        </div>
+
+        <div class="form-group">
+            <label for="longitude">Longitude:</label>
+            <input type="number" name="longitude" id="longitude" value="-74.0060" step="0.0001">
+        </div>
+
+        <div class="form-group">
+            <label for="number_of_reviews">Number of Reviews:</label>
+            <input type="number" name="number_of_reviews" id="number_of_reviews" value="0" min="0" max="1000">
+        </div>
+
+        <div class="form-group">
+            <label for="review_scores_rating">Review Score Rating (0-100):</label>
+            <input type="number" name="review_scores_rating" id="review_scores_rating" value="90" min="0" max="100">
+        </div>
+
+        <div class="form-group">
+            <label for="bedrooms">Bedrooms:</label>
+            <input type="number" name="bedrooms" id="bedrooms" value="1" min="0" max="20">
+        </div>
+
+        <div class="form-group">
+            <label for="beds">Beds:</label>
+            <input type="number" name="beds" id="beds" value="1" min="0" max="20">
+        </div>
+
+        <button type="submit" id="submit-btn">Predict Price</button>
+    </form>
+    
+    <div id="result">
+        <!-- Result will be displayed here -->
+    </div>
+    
+    <div id="error" style="display: none;">
+        <!-- Error message will be displayed here -->
+    </div>
+    
+    <footer>
+        <p>Airbnb Price Prediction - Powered by Machine Learning</p>
+    </footer>
+
+    <script>
+        // ============================================================
+        // IMPORTANT: Update this URL with your actual Render backend URL
+        // Example: "https://airbnb-price-api.onrender.com"
+        // ============================================================
+        const API_URL = "https://your-render-app-name.onrender.com";
+
+        document.getElementById('prediction-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const resultDiv = document.getElementById('result');
+            const errorDiv = document.getElementById('error');
+            
+            // Disable button and show loading state
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Predicting...';
+            resultDiv.innerHTML = '';
+            errorDiv.style.display = 'none';
+            
+            // Gather form data
+            const formData = {
+                property_type: document.getElementById('property_type').value,
+                room_type: document.getElementById('room_type').value,
+                amenities: parseInt(document.getElementById('amenities').value) || 0,
+                accommodates: parseInt(document.getElementById('accommodates').value) || 1,
+                bathrooms: parseFloat(document.getElementById('bathrooms').value) || 1.0,
+                bed_type: document.getElementById('bed_type').value,
+                cancellation_policy: document.getElementById('cancellation_policy').value,
+                cleaning_fee: document.getElementById('cleaning_fee').value,
+                city: document.getElementById('city').value,
+                host_has_profile_pic: document.getElementById('host_has_profile_pic').value,
+                host_identity_verified: document.getElementById('host_identity_verified').value,
+                host_response_rate: parseInt(document.getElementById('host_response_rate').value) || 100,
+                instant_bookable: document.getElementById('instant_bookable').value,
+                latitude: parseFloat(document.getElementById('latitude').value) || 0.0,
+                longitude: parseFloat(document.getElementById('longitude').value) || 0.0,
+                number_of_reviews: parseInt(document.getElementById('number_of_reviews').value) || 0,
+                review_scores_rating: parseInt(document.getElementById('review_scores_rating').value) || 90,
+                bedrooms: parseInt(document.getElementById('bedrooms').value) || 1,
+                beds: parseInt(document.getElementById('beds').value) || 1
+            };
+            
+            try {
+                const response = await fetch(`${API_URL}/predict`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData)
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    resultDiv.innerHTML = `<h2>Predicted Price: ${data.formatted_price}</h2>`;
+                } else {
+                    errorDiv.textContent = `Error: ${data.error}`;
+                    errorDiv.style.display = 'block';
+                }
+            } catch (error) {
+                errorDiv.textContent = `Error: ${error.message}. Make sure the backend API is running.`;
+                errorDiv.style.display = 'block';
+            } finally {
+                // Re-enable button
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Predict Price';
+            }
+        });
+    </script>
+</body>
+
+</html>
