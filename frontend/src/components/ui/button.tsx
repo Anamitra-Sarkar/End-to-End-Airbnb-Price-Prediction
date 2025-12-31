@@ -2,9 +2,10 @@ import * as React from "react"
 import { motion, HTMLMotionProps } from "framer-motion"
 import { cn } from "@/utils/cn"
 
-export interface ButtonProps extends HTMLMotionProps<"button"> {
+export interface ButtonProps extends Omit<HTMLMotionProps<"button">, 'children'> {
     variant?: "default" | "outline" | "ghost" | "airbnb"
     size?: "default" | "sm" | "lg" | "icon"
+    children?: React.ReactNode
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
