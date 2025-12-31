@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "./ui/button";
 import { Loader2, Check, Sparkles, MapPin } from "lucide-react";
 import { cn } from "@/utils/cn";
+import { API_URL } from "@/utils/config";
 
 const CITIES = ["Mumbai", "Delhi", "Bangalore", "Goa", "Jaipur", "Hyderabad", "Chennai", "Kolkata"];
 const PROPERTY_TYPES = ["Apartment", "Villa", "Bungalow", "Studio", "Heritage Haveli", "Beach House"];
@@ -36,7 +37,6 @@ export function PredictionForm() {
         const startTime = Date.now();
 
         try {
-            const API_URL = "https://end-to-end-airbnb-price-prediction.onrender.com";
             const res = await fetch(`${API_URL}/predict`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
