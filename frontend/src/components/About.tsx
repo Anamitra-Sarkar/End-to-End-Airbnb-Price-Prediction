@@ -28,7 +28,7 @@ const FEATURES = [
 const TEAM_STATS = [
     { value: "2000+", label: "Data Points" },
     { value: "6", label: "Indian Cities" },
-    { value: "95%+", label: "Accuracy" },
+    { value: "97%", label: "R² Score" },
     { value: "24/7", label: "Availability" }
 ];
 
