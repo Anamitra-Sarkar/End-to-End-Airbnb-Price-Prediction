@@ -7,9 +7,7 @@ from src.Airbnb.logger import logging
 from catboost import CatBoostRegressor
 from src.Airbnb.utils.utils import save_object
 from src.Airbnb.exception import customexception
-from src.Airbnb.utils.utils import evaluate_model
-from sklearn.linear_model import LinearRegression, Ridge,Lasso,ElasticNet
-from sklearn.ensemble import RandomForestRegressor, GradientBoostingRegressor
+from sklearn.metrics import r2_score
 
 
 @dataclass 
@@ -31,35 +29,21 @@ class ModelTrainer:
                 test_array[:,-1]
             )
 
-            models={
-            'LinearRegression':LinearRegression(),
-            'Lasso':Lasso(),
-            'Ridge':Ridge(),
-            'Elasticnet':ElasticNet(),
-            'RandomForestRegressor':RandomForestRegressor(),
-            'GradientBoostingRegressor':GradientBoostingRegressor(),
-            'CatBoostRegressor':CatBoostRegressor() 
-        }
+            # Use only CatBoost model for reduced memory footprint
+            model = CatBoostRegressor(verbose=False)
             
-            model_report:dict=evaluate_model(X_train,y_train,X_test,y_test,models)
-            print(model_report)
-            print('\n====================================================================================\n')
-            logging.info(f'Model Report : {model_report}')
-
-            # To get best model score from dictionary 
-            best_model_score = max(sorted(model_report.values()))
-
-            best_model_name = list(model_report.keys())[
-                list(model_report.values()).index(best_model_score)
-            ]
+            logging.info('Training CatBoost model')
+            model.fit(X_train, y_train)
             
-            best_model = models[best_model_name]
-
-            print(f'Best Model Found , Model Name : {best_model_name} , R2 Score : {best_model_score}')
+            # Evaluate model
+            y_test_pred = model.predict(X_test)
+            test_score = r2_score(y_test, y_test_pred)
+            
+            print(f'CatBoost Model R2 Score: {test_score}')
             print('\n====================================================================================\n')
-            logging.info(f'Best Model Found , Model Name : {best_model_name} , R2 Score : {best_model_score}')
+            logging.info(f'CatBoost Model R2 Score: {test_score}')
 
-            save_object(file_path=self.model_trainer_config.trained_model_file_path,obj=best_model)
+            save_object(file_path=self.model_trainer_config.trained_model_file_path, obj=model)
           
         except Exception as e:
             logging.info('Exception occured at Model Training')

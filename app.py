@@ -1,12 +1,74 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
+from flask_cors import CORS
 from src.Airbnb.pipelines.Prediction_Pipeline import CustomData, PredictPipeline
 import numpy as np
 
 app = Flask(__name__)
+CORS(app)
 
-# Define the home route
-@app.route("/", methods=["GET", "POST"])
-def home():
+# Health check endpoint
+@app.route("/", methods=["GET"])
+def health():
+    return jsonify({"status": "Backend is running"})
+
+# API endpoint for predictions (JSON)
+@app.route("/predict", methods=["POST"])
+def predict():
+    try:
+        # Get JSON data from request
+        json_data = request.get_json()
+        
+        if not json_data:
+            return jsonify({"error": "No JSON data provided"}), 400
+        
+        # Validate and convert form data to CustomData object
+        data = CustomData(
+            property_type=json_data.get("property_type", "Apartment"),
+            room_type=json_data.get("room_type", "Entire home/apt"),
+            amenities=int(json_data.get("amenities", 0)),
+            accommodates=int(json_data.get("accommodates", 1)),
+            bathrooms=float(json_data.get("bathrooms", 1.0)),
+            bed_type=json_data.get("bed_type", "Real Bed"),
+            cancellation_policy=json_data.get("cancellation_policy", "flexible"),
+            cleaning_fee=json_data.get("cleaning_fee", "1"),
+            city=json_data.get("city", "NYC"),
+            host_has_profile_pic=json_data.get("host_has_profile_pic", "1"),
+            host_identity_verified=json_data.get("host_identity_verified", "1"),
+            host_response_rate=int(json_data.get("host_response_rate", 100)),
+            instant_bookable=json_data.get("instant_bookable", "0"),
+            latitude=float(json_data.get("latitude", 0.0)),
+            longitude=float(json_data.get("longitude", 0.0)),
+            number_of_reviews=int(json_data.get("number_of_reviews", 0)),
+            review_scores_rating=int(json_data.get("review_scores_rating", 90)),
+            bedrooms=int(json_data.get("bedrooms", 1)),
+            beds=int(json_data.get("beds", 1))
+        )
+
+        final_data = data.get_data_as_dataframe()
+
+        # Make prediction
+        predict_pipeline = PredictPipeline()
+        pred = predict_pipeline.predict(final_data)
+        
+        # Convert log_price to actual price
+        log_price = pred[0]
+        actual_price = round(np.exp(log_price), 2)
+        
+        return jsonify({
+            "success": True,
+            "predicted_price": actual_price,
+            "formatted_price": f"${actual_price}"
+        })
+
+    except Exception as e:
+        return jsonify({
+            "success": False,
+            "error": str(e)
+        }), 500
+
+# Legacy form-based endpoint (kept for backward compatibility)
+@app.route("/form", methods=["GET", "POST"])
+def form():
     if request.method == "POST":
         try:
             # Validate and convert form data to CustomData object
@@ -55,4 +117,4 @@ def home():
 
 # Execution begins
 if __name__ == '__main__':
-    app.run(host="0.0.0.0", port=8080, debug=True)
+    app.run(host="0.0.0.0", port=10000, debug=True)
