@@ -7,9 +7,9 @@ const CONTACT_INFO = [
     {
         icon: Mail,
         label: "Email Support",
-        value: "support@proviewcadence.com",
+        value: "support@gmail.com",
         subtext: "We respond within 24 hours",
-        href: "mailto:support@proviewcadence.com",
+        href: "mailto:support@gmail.com",
         isLink: true
     },
     {
